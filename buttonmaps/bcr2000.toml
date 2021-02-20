@@ -1,0 +1,19 @@
+# BCR2000 setup.
+# [1, 9) = top rotary encoders group 1.
+# [9, 17) = top rotary encoders group 2.
+# [17, 25) = top rotary encoders group 3.
+# [25, 33) = top rotary encoders group 4.
+# [33, 41) = top rotary encoder push group 1.
+# [41, 49) = top rotary encoder push group 2.
+# [49, 57) = top rotary encoder push group 3.
+# [57, 65) = top rotary encoder push group 4.
+# [65, 73) = top first button row.
+# [73, 81) = top second button row.
+# [81, 89) = first main row rotary encoders.
+# [89, 97) = second main row rotary encoders.
+# [97, 105) = final main row rotary encoders.
+# [105, 109) = left-right top-bottom buttons in bottom right.
+
+sustain_pedal = 64
+master_volume = 97
+key_velocity = 105
