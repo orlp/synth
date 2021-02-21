@@ -7,6 +7,14 @@ use std::io::Read;
 pub struct ButtonMap {
     pub master_volume: u8,
     pub key_velocity: u8,
+    pub volume_attack: u8,
+    pub volume_decay: u8,
+    pub volume_sustain: u8,
+    pub volume_release: u8,
+
+    pub osc1_waveform: u8,
+    pub osc2_waveform: u8,
+    pub osc_balance: u8,
 }
 
 impl ButtonMap {

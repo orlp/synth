@@ -17,3 +17,12 @@
 sustain_pedal = 64
 master_volume = 97
 key_velocity = 105
+
+volume_attack = 81
+volume_decay = 82
+volume_sustain = 83
+volume_release = 84
+
+osc1_waveform = 1
+osc2_waveform = 2
+osc_balance = 3

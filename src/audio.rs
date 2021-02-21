@@ -25,12 +25,21 @@ where
             synth_controller.pump_events(&mut synth);
             synth.notify_buffer();
 
-            for frame in data.chunks_mut(channels) {
-                synth.step_frame();
-                let value = synth_controller.step_all_voices(&mut synth);
-                for sample in frame.iter_mut() {
-                    *sample = cpal::Sample::from(&value);
+            synth.step_frame();
+
+            if channels == 1 {
+                for sample in data.iter_mut() {
+                    let (l, r) = synth_controller.step_all_voices(&mut synth);
+                    *sample = cpal::Sample::from(&((l + r) / 2.0));
                 }
+            } else if channels == 2 {
+                for frame in data.chunks_mut(2) {
+                    let (l, r) = synth_controller.step_all_voices(&mut synth);
+                    frame[0] = cpal::Sample::from(&l);
+                    frame[1] = cpal::Sample::from(&r);
+                }
+            } else {
+                panic!("can't output to more than 2 channels");
             }
         },
         err_fn,

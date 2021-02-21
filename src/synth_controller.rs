@@ -80,7 +80,7 @@ impl<S: Synth> SynthController<S> {
 
     pub fn pump_events(&mut self, synth: &mut S) {
         // Only keep channels that play voices that aren't done yet.
-        self.channels.retain(|_k, c| !c.voice.is_done());
+        self.channels.retain(|_k, c| !c.voice.is_done(synth));
 
         while let Ok(event) = self.event_queue.try_recv() {
             match event {
@@ -103,11 +103,14 @@ impl<S: Synth> SynthController<S> {
         }
     }
 
-    pub fn step_all_voices(&mut self, synth: &mut S) -> f32 {
-        let mut value = 0.0;
+    pub fn step_all_voices(&mut self, synth: &mut S) -> (f32, f32) {
+        let mut left = 0.0;
+        let mut right = 0.0;
         for c in self.channels.values_mut() {
-            value += c.voice.step_frame(&synth);
+            let (l, r) = c.voice.step_frame(&synth);
+            left += l;
+            right += r;
         }
-        value
+        (left, right)
     }
 }
