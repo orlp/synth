@@ -26,3 +26,12 @@ volume_release = 84
 osc1_waveform = 1
 osc2_waveform = 2
 osc_balance = 3
+
+distortion_pregain = 89
+distortion_level = 90
+distortion_mix = 91
+
+filter_cutoff = 98
+filter_resonance = 99
+filter_relative = 73
+enable_compressor = 72

@@ -1,4 +1,4 @@
-use std::error::Error;
+use anyhow::Result;
 
 
 use cpal::traits::*;
@@ -12,7 +12,7 @@ pub fn run<T, S: Synth + 'static>(
     config: &cpal::StreamConfig,
     mut synth: S,
     mut synth_controller: SynthController<S>,
-) -> Result<cpal::Stream, Box<dyn Error>>
+) -> Result<cpal::Stream>
 where
     T: cpal::Sample,
 {
@@ -25,15 +25,16 @@ where
             synth_controller.pump_events(&mut synth);
             synth.notify_buffer();
 
-            synth.step_frame();
 
             if channels == 1 {
                 for sample in data.iter_mut() {
+                    synth.step_frame();
                     let (l, r) = synth_controller.step_all_voices(&mut synth);
                     *sample = cpal::Sample::from(&((l + r) / 2.0));
                 }
             } else if channels == 2 {
                 for frame in data.chunks_mut(2) {
+                    synth.step_frame();
                     let (l, r) = synth_controller.step_all_voices(&mut synth);
                     frame[0] = cpal::Sample::from(&l);
                     frame[1] = cpal::Sample::from(&r);

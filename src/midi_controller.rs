@@ -6,7 +6,6 @@ use crate::util::*;
 
 const MIDI_SUSTAIN_PEDAL: u8 = 64;
 
-
 #[derive(Clone, Debug)]
 pub struct MidiController {
     sustain_pedal: bool,
@@ -16,7 +15,6 @@ pub struct MidiController {
     keyboard_channel: u8,
     controller_channel: u8,
 }
-
 
 impl MidiController {
     pub fn new(
@@ -43,7 +41,6 @@ impl MidiController {
             key,
             vel: vel as f32 / 127.0,
         });
-
 
         self.pressed[key as usize] = true;
         if self.sustain_pedal {

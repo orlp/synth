@@ -1,4 +1,4 @@
-use std::error::Error;
+use anyhow::Result;
 use std::sync::mpsc;
 
 use midir::MidiInputConnection;
@@ -23,15 +23,14 @@ pub fn list_devices() -> Vec<String> {
     vec![]
 }
 
-
 pub struct Connection(MidiInputConnection<mpsc::SyncSender<Event>>);
 
 pub fn connect_to_ports(
     midi_ports: Vec<String>,
-) -> Result<(mpsc::Receiver<Event>, Vec<Connection>), Box<dyn Error>> {
+) -> Result<(mpsc::Receiver<Event>, Vec<Connection>)> {
     let (sender, receiver) = mpsc::sync_channel(1024);
 
-    let connections: Result<Vec<Connection>, Box<dyn Error>> = midi_ports
+    let connections: Result<Vec<Connection>> = midi_ports
         .into_iter()
         .map(|port_name| {
             let midi_in = midir::MidiInput::new(&format!("synth to {}", port_name))?;
