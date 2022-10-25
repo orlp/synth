@@ -147,7 +147,7 @@ fn main() -> Result<()> {
     match opt {
         SynthOpt::ListMIDI => {
             println!("Available devices:");
-            for device_name in midi::list_devices() {
+            for device_name in midi::list_devices()? {
                 println!("{}", device_name);
             }
         }

@@ -19,8 +19,16 @@ pub struct Event {
     pub content: EventContent,
 }
 
-pub fn list_devices() -> Vec<String> {
-    vec![]
+pub fn list_devices() -> Result<Vec<String>> {
+    let midi_in = midir::MidiInput::new("list devices")?;
+    let midi_out = midir::MidiOutput::new("list devices")?;
+
+    let in_ports = midi_in.ports().into_iter().map(|port| midi_in.port_name(&port).unwrap_or_else(|e| e.to_string()));
+    let out_ports = midi_out.ports().into_iter().map(|port| midi_out.port_name(&port).unwrap_or_else(|e| e.to_string()));
+    let mut ports: Vec<_> = in_ports.chain(out_ports).collect();
+    ports.sort_unstable();
+    ports.dedup();
+    Ok(ports)
 }
 
 pub struct Connection(MidiInputConnection<mpsc::SyncSender<Event>>);
